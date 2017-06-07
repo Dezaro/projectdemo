@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.projectdemo.model.User;
 
 @Component
-@CrossOrigin(origins = "/**")
+@CrossOrigin(origins = "http://localhost:3000")
 @WebFilter("/**")
 public class RequestsFilter implements Filter {
 
@@ -44,12 +44,18 @@ public class RequestsFilter implements Filter {
 		httpResponse.addHeader("Access-Control-Allow-Methods", "*");
 		httpResponse.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
+		System.out.println(httpRequest.getRequestURI().compareTo("/api/posts"));
+
 		if (httpRequest.getMethod().equals("OPTIONS")) {
 			httpResponse.setStatus(HttpServletResponse.SC_OK);
 			return;
 		}
 		User user = (User) httpRequest.getSession().getAttribute("user");
-		if (httpRequest.getRequestURI().indexOf("login", 1) == 1) {
+		if (httpRequest.getRequestURI().compareTo("/authentication") == 0) {
+			chain.doFilter(request, response);
+			return;
+		}
+		if (httpRequest.getRequestURI().compareTo("/api/posts") == 0) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -57,18 +63,18 @@ public class RequestsFilter implements Filter {
 		if (user != null) {
 			chain.doFilter(request, response);
 		} else {
-			
+
 			JSONObject obj = new JSONObject();
 			try {
-				obj.put("success", new Boolean(false));
+				obj.put("success", false);
 				obj.put("message", "401 Unauthorizied");
-				obj.put("status code", new Integer(401));
+				obj.put("status code", HttpServletResponse.SC_UNAUTHORIZED);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+			httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.setContentType("application/json");
 			response.getWriter().print(obj);
-			// response.getWriter().print(JSONObject.wrap(obj));
 		}
 	}
 
