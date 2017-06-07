@@ -3,13 +3,14 @@ import './vendor/font-awesome/css/font-awesome.min.css';
 import './js/clean-blog.js';
 
 import React, {Component} from 'react';
+import $ from 'jquery';
 import Menu from './items/navbar.jsx';
 import Header from './items/header.jsx';
 import Footer from './items/footer.jsx';
 import Post from './items/post.jsx';
 import About from './items/about.jsx';
 import Create from './items/create.jsx';
-import $ from 'jquery';
+import Login from './items/login.jsx';
 
 class App extends Component {
 
@@ -34,17 +35,38 @@ class App extends Component {
   };
 
   getPosts = (limit) => {
+    console.log(1);
     let me = this;
     $.ajax({
       url: 'http://localhost:9099/api/posts',
       type: 'GET',
+      crossDomain: true,
+      xhrFields: {
+        withCredentials: true
+      },
+      // headers: {
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Access-Control-Allow-Credentials': 'true',
+      //   'Access-Control-Allow-Methods': '*'
+      // },
+      beforeSend: function(xhr) {
+        console.log(xhr);
+      },
       data: {
         start: me.state.start,
         limit: (typeof limit !== 'undefined')
           ? limit
           : me.state.limit
+      },
+      success: function(result) {
+        console.log(result);
       }
     }).done((result) => {
+      console.log(result);
+      if (result.success === false) {
+        this.setState({posts: []});
+        return;
+      }
       this.setState({posts: result});
     });
   };
@@ -59,7 +81,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Menu items={[<Create reload={this.getPosts} />, <About name = 'About' />]}/>
+        <Menu items={[ <Create reload = {
+            this.getPosts
+          } />, <About name = 'About' />, <Login reload = {
+            this.getPosts
+          } />
+        ]}/>
         <Header/>
         <div className="container">
           <div className="row">
@@ -67,7 +94,8 @@ class App extends Component {
               <Post reload={() => this.getPosts()} items={this.state.posts}/>
               <ul className="pager">
                 <li className="next">
-                  <a onClick={this.getOlderPosts}>Older Posts  <span className="glyphicon glyphicon-share-alt"></span>
+                  <a onClick={this.getOlderPosts}>Older Posts
+                    <span className="glyphicon glyphicon-share-alt"></span>
                   </a>
                 </li>
               </ul>

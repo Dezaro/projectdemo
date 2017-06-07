@@ -20,13 +20,14 @@ import com.example.projectdemo.model.Post;
 import com.example.projectdemo.model.PostService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "/api/posts")
 public class PostApi {
 
 	@Autowired
 	private PostService postService;
 
+	@CrossOrigin(origins = "/**")
 	@GetMapping
 	public Collection<Post> listUsers(HttpServletRequest request) {
 		int start, limit;

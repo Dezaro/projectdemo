@@ -17,7 +17,6 @@ class Review extends Component {
       isOpen: false
     };
 
-    console.log(this.props.post);
   };
 
   openModal = () => {

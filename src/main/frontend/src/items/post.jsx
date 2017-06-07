@@ -11,6 +11,8 @@ class Post extends Component {
 
     this.state = {}
 
+                console.log(this.props.items);
+
   };
 
   forceUpdateHandler = () => {
@@ -34,6 +36,9 @@ class Post extends Component {
     let me = this;
 
     function format(string) {
+      // return string;
+      // var timestamp = moment.unix(1293683278);
+      // console.log( timestamp.format("HH/mm/ss") );
       let n = string.indexOf('T');
       let date = string.substring(0, n);
       let dot = string.indexOf('.');
@@ -44,7 +49,6 @@ class Post extends Component {
       <div>
         <div className="post-preview">
           {this.props.items.map(function(post, index) {
-
             return (
               <div>
                 <a>

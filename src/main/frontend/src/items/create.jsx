@@ -23,11 +23,6 @@ class Create extends Component {
 
   };
 
-  delete = () => {
-    this.props.onClick();
-    this.hideModal();
-  };
-
   openModal = () => {
     this.setState({isOpen: true});
   };
