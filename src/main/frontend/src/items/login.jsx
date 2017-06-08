@@ -48,26 +48,19 @@ class Login extends Component {
 
 handleSubmit = (event) => {
   let me = this;
-  console.log(me.state.username, me.state.password);
   $.ajax({
-    url: 'http://localhost:9099/login',
+    url: 'http://localhost:9099/authentication',
     crossDomain: true,
     xhrFields: {
       withCredentials: true
      },
-    //  headers: {
-    //    'Access-Control-Allow-Origin': '*',
-    //    'Access-Control-Allow-Credentials': 'true',
-    //    'Access-Control-Allow-Methods': '*'
-    //  },
-    // crossDomain: true,
-    // contentType: "application/json; charset=utf-8",
     type: 'POST',
     data: {
       "username": me.state.username,
       "password": me.state.password
     }
   }).done((result) => {
+    window.sessionStorage.setItem('user', JSON.stringify(result));
     this.hideModal();
     this.props.reload();
   }).fail((jqXHR, textStatus, errorThrown) => {

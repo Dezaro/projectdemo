@@ -4,6 +4,10 @@ class Footer extends Component {
 
   render() {
 
+    let style = {
+      cursor: 'pointer'
+    };
+
     return (
 
       <footer>
@@ -13,7 +17,7 @@ class Footer extends Component {
                   <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                       <ul className="list-inline text-center">
                           <li>
-                              <a onClick="" >
+                              <a style={style} onClick="" >
                                   <span className="fa-stack fa-lg">
                                       <i className="fa fa-circle fa-stack-2x"></i>
                                       <i className="fa fa-twitter fa-stack-1x fa-inverse"></i>
@@ -21,7 +25,7 @@ class Footer extends Component {
                               </a>
                           </li>
                           <li>
-                              <a onClick="">
+                              <a style={style} onClick="">
                                   <span className="fa-stack fa-lg">
                                       <i className="fa fa-circle fa-stack-2x"></i>
                                       <i className="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -29,7 +33,7 @@ class Footer extends Component {
                               </a>
                           </li>
                           <li>
-                              <a onClick="">
+                              <a target='_blank' rel="noopener noreferrer" href="https://github.com/Dezaro/projectdemo">
                                   <span className="fa-stack fa-lg">
                                       <i className="fa fa-circle fa-stack-2x"></i>
                                       <i className="fa fa-github fa-stack-1x fa-inverse"></i>

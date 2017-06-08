@@ -33,7 +33,7 @@ public class PostServiceImpl implements PostService {
 			post.setPost_title((String) row.get("post_title"));
 			post.setSub_title((String) row.get("sub_title"));
 			post.setPost_content((String) row.get("post_content"));
-			post.setUser_id((int) row.get("user_id"));
+			post.setUser_id((Long) row.get("user_id"));
 			post.setCreated((Timestamp) row.get("created"));
 			post.setCreater_name((String) row.get("name"));
 			posts.add(post);

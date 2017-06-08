@@ -5,10 +5,28 @@ class Menu extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {}
+    this.state = {
+      user: this.getUser()
+    }
+  };
+
+  getUser = () => {
+    let user = window.sessionStorage.getItem('user');
+    if (user !== null) {
+      return JSON.parse(user);
+    }
+    return null;
+  };
+
+  forceUpdateHandler = () => {
+    this.forceUpdate(() => {
+      console.log('in forse callback main');
+    });
   };
 
   render() {
+
+    let me = this;
 
     return (
 
@@ -25,8 +43,25 @@ class Menu extends Component {
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav navbar-right">
               {this.props.items.map(function(menu, index) {
-                return (menu);
+                if (menu.type.name === 'Create' && me.getUser() !== null) {
+                  return (menu);
+                }
+                if (menu.type.name === 'About') {
+                  return (menu);
+                }
+                if (menu.type.name === 'Login') {
+                  if (me.getUser() === null) {
+                    return (menu);
+                  }
+                }
+                if (menu.type.name === 'Logout') {
+                  if (me.getUser() !== null) {
+                    return (menu);
+                  }
+                }
+                return null;
               })}
+
             </ul>
           </div>
         </div>

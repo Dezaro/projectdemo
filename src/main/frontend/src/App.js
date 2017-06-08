@@ -11,6 +11,7 @@ import Post from './items/post.jsx';
 import About from './items/about.jsx';
 import Create from './items/create.jsx';
 import Login from './items/login.jsx';
+import Logout from './items/logout.jsx';
 
 class App extends Component {
 
@@ -24,18 +25,15 @@ class App extends Component {
     };
 
     this.getPosts();
-
-    this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
   };
 
-  forceUpdateHandler() {
+  forceUpdateHandler = () => {
     this.forceUpdate(() => {
       console.log('in forse callback main');
     });
   };
 
   getPosts = (limit) => {
-    console.log(1);
     let me = this;
     $.ajax({
       url: 'http://localhost:9099/api/posts',
@@ -44,25 +42,11 @@ class App extends Component {
       xhrFields: {
         withCredentials: true
       },
-      // headers: {
-      //   'Access-Control-Allow-Origin': '*',
-      //   'Access-Control-Allow-Credentials': 'true',
-      //   'Access-Control-Allow-Methods': '*'
-      // },
-      beforeSend: function(xhr) {
-        console.log(xhr);
-      },
       data: {
         start: me.state.start,
-        limit: (typeof limit !== 'undefined')
-          ? limit
-          : me.state.limit
-      },
-      success: function(result) {
-        console.log(result);
+        limit: (typeof limit !== 'undefined') ? limit : me.state.limit
       }
     }).done((result) => {
-      console.log(result);
       if (result.success === false) {
         this.setState({posts: []});
         return;
@@ -79,13 +63,17 @@ class App extends Component {
 
   render() {
 
+    let style = {
+      cursor: 'pointer'
+    };
+
     return (
       <div className="App">
-        <Menu items={[ <Create reload = {
-            this.getPosts
-          } />, <About name = 'About' />, <Login reload = {
-            this.getPosts
-          } />
+        <Menu items={[
+          <Create reload = {this.getPosts} />,
+          <About name = 'About' />,
+          <Login reload = {this.getPosts} />,
+          <Logout reload = {this.getPosts} />
         ]}/>
         <Header/>
         <div className="container">
@@ -94,8 +82,7 @@ class App extends Component {
               <Post reload={() => this.getPosts()} items={this.state.posts}/>
               <ul className="pager">
                 <li className="next">
-                  <a onClick={this.getOlderPosts}>Older Posts
-                    <span className="glyphicon glyphicon-share-alt"></span>
+                  <a style={style} onClick={this.getOlderPosts}>Older Posts   <span className="glyphicon glyphicon-share-alt"></span>
                   </a>
                 </li>
               </ul>

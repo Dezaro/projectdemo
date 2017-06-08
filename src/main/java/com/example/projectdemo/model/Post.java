@@ -9,13 +9,13 @@ public class Post {
 	private String sub_title;
 	private String post_content;
 	private Timestamp created;
-	private int user_id;
+	private Long user_id;
 	private String creater_name;
 
 	/**
 	 * @return the user_id
 	 */
-	public int getUser_id() {
+	public Long getUser_id() {
 		return user_id;
 	}
 
@@ -23,7 +23,7 @@ public class Post {
 	 * @param user_id
 	 *            the user_id to set
 	 */
-	public void setUser_id(int user_id) {
+	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
 	}
 

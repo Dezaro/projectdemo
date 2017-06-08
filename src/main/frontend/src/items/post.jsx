@@ -10,9 +10,6 @@ class Post extends Component {
     super(posts);
 
     this.state = {}
-
-                console.log(this.props.items);
-
   };
 
   forceUpdateHandler = () => {
@@ -31,14 +28,19 @@ class Post extends Component {
     });
   }
 
+  getUser = () => {
+    let user = window.sessionStorage.getItem('user');
+    if (user !== null) {
+      return JSON.parse(user);
+    }
+    return null;
+  };
+
   render() {
 
     let me = this;
 
     function format(string) {
-      // return string;
-      // var timestamp = moment.unix(1293683278);
-      // console.log( timestamp.format("HH/mm/ss") );
       let n = string.indexOf('T');
       let date = string.substring(0, n);
       let dot = string.indexOf('.');
@@ -49,24 +51,62 @@ class Post extends Component {
       <div>
         <div className="post-preview">
           {this.props.items.map(function(post, index) {
-            return (
-              <div>
-                <a>
-                  <h2 className="post-title">
-                    <Review post={post}/>
-                  </h2>
-                </a>
-                <p className="post-meta text-primary">
-                  {post.sub_title}
-                </p>
-                <p className="text-warning">
-                  <small>Posted by {post.creater_name} on {format(post.created)}.</small>
-                </p>
-                <Edit post={post} reload={() => me.props.reload()}/>
-                <Delete onClick={() => me.onDelete(post.id)}/>
-                <hr/>
-              </div>
-            );
+            if(me.getUser() === null){
+              return (
+                <div>
+                  <a>
+                    <h2 className="post-title">
+                      <Review post={post}/>
+                    </h2>
+                  </a>
+                  <p className="post-meta text-primary">
+                    {post.sub_title}
+                  </p>
+                  <p className="text-warning">
+                    <small>Posted by {post.creater_name} on {format(post.created)}.</small>
+                  </p>
+                  <hr/>
+                </div>
+              );
+            } else {
+              if(post.creater_name === me.getUser().name){
+                return (
+                  <div>
+                    <a>
+                      <h2 className="post-title">
+                        <Review post={post}/>
+                      </h2>
+                    </a>
+                    <p className="post-meta text-primary">
+                      {post.sub_title}
+                    </p>
+                    <p className="text-warning">
+                      <small>Posted by {post.creater_name} on {format(post.created)}.</small>
+                    </p>
+                    <Edit post={post} reload={() => me.props.reload()}/>
+                    <Delete onClick={() => me.onDelete(post.id)}/>
+                    <hr/>
+                  </div>
+                );
+              } else {
+                return (
+                  <div>
+                    <a>
+                      <h2 className="post-title">
+                        <Review post={post}/>
+                      </h2>
+                    </a>
+                    <p className="post-meta text-primary">
+                      {post.sub_title}
+                    </p>
+                    <p className="text-warning">
+                      <small>Posted by {post.creater_name} on {format(post.created)}.</small>
+                    </p>
+                    <hr/>
+                  </div>
+                );
+              }
+            }
           })
         }
         </div>

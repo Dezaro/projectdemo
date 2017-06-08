@@ -44,17 +44,18 @@ public class RequestsFilter implements Filter {
 		httpResponse.addHeader("Access-Control-Allow-Methods", "*");
 		httpResponse.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-		System.out.println(httpRequest.getRequestURI().compareTo("/api/posts"));
-
 		if (httpRequest.getMethod().equals("OPTIONS")) {
 			httpResponse.setStatus(HttpServletResponse.SC_OK);
 			return;
 		}
+
 		User user = (User) httpRequest.getSession().getAttribute("user");
+
 		if (httpRequest.getRequestURI().compareTo("/authentication") == 0) {
 			chain.doFilter(request, response);
 			return;
 		}
+
 		if (httpRequest.getRequestURI().compareTo("/api/posts") == 0) {
 			chain.doFilter(request, response);
 			return;
