@@ -58,8 +58,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public void updatePost(Post post) {
-		String query = "UPDATE post SET post_title = ?, post_content = ? WHERE id = ?";
-		this.jdbcTemplate.update(query, post.getPost_title(), post.getPost_content(), post.getId());
+		String query = "UPDATE post SET post_title = ?, sub_title = ?, post_content = ? WHERE id = ?";
+		this.jdbcTemplate.update(query, post.getPost_title(), post.getSub_title(), post.getPost_content(), post.getId());
 	}
 
 	@Override

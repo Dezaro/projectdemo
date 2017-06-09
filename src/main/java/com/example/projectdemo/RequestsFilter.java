@@ -41,7 +41,7 @@ public class RequestsFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		httpResponse.addHeader("Access-Control-Allow-Credentials", "true");
 		httpResponse.addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-		httpResponse.addHeader("Access-Control-Allow-Methods", "*");
+		httpResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 		httpResponse.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 		if (httpRequest.getMethod().equals("OPTIONS")) {
