@@ -24,11 +24,11 @@ class Login extends Component {
   };
 
   showAlert = () => {
-     this.msg.show('Invalid username or password!', {
-       time: 5000,
-       type: 'error'
-     })
-   }
+    this.msg.show('Invalid username or password!', {
+      time: 5000,
+      type: 'error'
+    })
+  }
 
   openModal = () => {
     this.setState({isOpen: true});
@@ -46,28 +46,28 @@ class Login extends Component {
     this.setState({password: event.target.value});
   };
 
-handleSubmit = (event) => {
-  let me = this;
-  $.ajax({
-    url: 'http://localhost:9099/authentication',
-    crossDomain: true,
-    xhrFields: {
-      withCredentials: true
-     },
-    type: 'POST',
-    data: {
-      "username": me.state.username,
-      "password": me.state.password
-    }
-  }).done((result) => {
-    window.sessionStorage.setItem('user', JSON.stringify(result));
-    this.hideModal();
-    this.props.reload();
-  }).fail((jqXHR, textStatus, errorThrown) => {
-    this.showAlert();
-  });
-  event.preventDefault();
-}
+  handleSubmit = (event) => {
+    let me = this;
+    $.ajax({
+      url: 'http://localhost:9099/authentication',
+      crossDomain: true,
+      xhrFields: {
+        withCredentials: true
+      },
+      type: 'POST',
+      data: {
+        "username": me.state.username,
+        "password": me.state.password
+      }
+    }).done((result) => {
+      window.sessionStorage.setItem('user', JSON.stringify(result));
+      this.hideModal();
+      this.props.reload();
+    }).fail((jqXHR, textStatus, errorThrown) => {
+      this.showAlert();
+    });
+    event.preventDefault();
+  }
 
   render() {
 
@@ -91,21 +91,37 @@ handleSubmit = (event) => {
           <ModalBody>
             <form onSubmit={this.handleSubmit}>
               <AlertContainer ref={a => this.msg = a} {...this.alertOptions} theme='light'/>
-              <div className="form-group">
-                <div className="input-group">
-                  <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-                  <input id="username" type="text" className="form-control" name="username" placeholder="User name" value={this.state.username} onChange={this.handleUsernameChange}  />
-                </div>
-              </div>
-              <div className="form-group">
-                <div className="input-group">
-                  <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
-                  <input id="password" type="password" className="form-control" name="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}  />
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="row">
+                      <div className="col-md-3"></div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <div className="input-group">
+                            <span className="input-group-addon">
+                              <i className="glyphicon glyphicon-user"></i>
+                            </span>
+                            <input id="username" type="text" className="form-control" name="username" placeholder="User name" value={this.state.username} onChange={this.handleUsernameChange}/>
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <div className="input-group">
+                            <span className="input-group-addon">
+                              <i className="glyphicon glyphicon-lock"></i>
+                            </span>
+                            <input id="password" type="password" className="form-control" name="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-3"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <ModalFooter>
                 <button type="button" className='btn btn-default' onClick={this.hideModal}>
-                <span className="glyphicon glyphicon-remove"></span>  Close</button>
+                  <span className="glyphicon glyphicon-remove"></span>  Close</button>
                 <button type="submit" className="btn btn-primary">
                   <span className="glyphicon glyphicon-log-in"></span>  Login</button>
               </ModalFooter>

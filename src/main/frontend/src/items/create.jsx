@@ -45,7 +45,6 @@ class Create extends Component {
 
   handleSubmit = (event) => {
    let me = this;
-   console.log(me.state.postTitle);
    $.ajax({
      url: 'http://localhost:9099/api/posts',
      contentType: "application/json; charset=utf-8",
